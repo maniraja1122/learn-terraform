@@ -1,4 +1,5 @@
 import boto3
+from boto3.dynamodb.conditions import Key
 import botocore
 import json
 def lambda_handler(event, context):
@@ -6,13 +7,11 @@ def lambda_handler(event, context):
    
    dynamodb = boto3.resource('dynamodb')
    table = dynamodb.Table('users')
-   response = table.get_item(
-    Key={
-        'UserId': userid
-    } )
-   item = response['Item']
+   response = table.query(
+    KeyConditionExpression=Key('UserId').eq(userid))
+   items = response.get("Items",[])
    return {
       "statusCode" : 200,
        "headers" : {"Content-Type": "application/json"},
-       "body": item,
+       "body": json.dumps(items[0]) if len(items)>0 else "No User Found",
    }

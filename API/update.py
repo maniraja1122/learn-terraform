@@ -12,7 +12,7 @@ def lambda_handler(event, context):
         Item={
             "UserId":userid,
             "Name":name,
-            "Age":int(age)
+            "Age":age
         }
     )
    return {

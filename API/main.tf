@@ -27,7 +27,7 @@ resource "aws_dynamodb_table" "users" {
   }
   attribute {
     name = "Age"
-    type = "N"
+    type = "S"
   }
   global_secondary_index {
     name               = "AgeIndex"
